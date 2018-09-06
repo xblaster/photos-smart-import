@@ -1,8 +1,8 @@
 {
-  "name": "audible-to-mp3",
+  "name": "photos-smart-import",
   "version": "0.8.0",
-  "description": "decode audiobook from audible with ffmpeg and activation bytes",
-  "homepage": "https://github.com/xblaster/audible-to-mp3",
+  "description": "easily import your photos",
+  "homepage": "https://github.com/xblaster/photos-smart-import",
   "author": {
     "name": "Jérôme WAX",
     "email": "nospam@lo2k.net"

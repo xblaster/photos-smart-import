@@ -1,6 +1,6 @@
 {
-  "productName": "audible-to-mp3",
-  "extraFiles": ["./ffmpeg.exe"],
+  "productName": "photos-smart-import",
+  "extraFiles": [],
   "directories": {
     "output": "app-builds"
   },
