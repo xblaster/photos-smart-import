@@ -1,6 +1,6 @@
-<div class="container mat-typography" id="images" fxLayout="row" fxLayoutGap="3em">
+<div class="container mat-typography" id="images" fxLayout="column" fxLayoutGap="3em">
 
-  <mat-vertical-stepper [linear]="false" #stepper fxFlex="50">
+  <mat-vertical-stepper [linear]="false" #stepper>
     <mat-step>
       <ng-template matStepLabel>Source</ng-template>
       <form #f="ngForm" (ngSubmit)="onSubmit(f)">
