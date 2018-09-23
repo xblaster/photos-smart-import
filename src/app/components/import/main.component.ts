@@ -16,7 +16,7 @@ import { ElectronService } from 'ngx-electron';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class MainComponent implements OnInit {
 
   constructor(private zone: NgZone, private _electronService: ElectronService) {
     this.book = new BehaviorSubject(null);

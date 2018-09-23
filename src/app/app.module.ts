@@ -19,7 +19,7 @@ import { ElectronService } from './providers/electron.service';
 import { WebviewDirective } from './directives/webview.directive';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
+import { MainComponent } from './components/import/main.component';
 import { FiledivComponent } from './filediv/filediv.component';
 
 import {NgxElectronModule} from 'ngx-electron';
@@ -41,7 +41,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    MainComponent,
     WebviewDirective,
     FiledivComponent,
   ],
