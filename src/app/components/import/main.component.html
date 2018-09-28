@@ -5,7 +5,7 @@
       <ng-template matStepLabel>Source</ng-template>
       <form #f="ngForm" (ngSubmit)="onSubmit(f)">
         <button mat-stroked-button (click)="browseInput.click()">Browse file to encode</button>
-        <input style="display: none" #browseInput mat-button type="file" #file ngModel name="directory" (change)="onChange(file.files)"
+        <input style="display: none" #browseInput mat-button type="file" #file ngModel name="directory" (change)="onChange(file.files)" webkitDirectory
         />
         <!--<button mat-stroked-button type="submit" color="primary">Discover</button>-->
         <!--<input type="button" (click)="getPDF()" value="get pdf :)"/>-->

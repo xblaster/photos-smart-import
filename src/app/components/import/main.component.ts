@@ -13,8 +13,8 @@ import { ElectronService } from 'ngx-electron';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
 
