@@ -3,6 +3,8 @@ import * as url from 'url';
 import { exec } from 'child_process';
 import { appendFile } from 'fs';
 
+import rxIpc from 'rx-ipc-electron/lib/main';
+
 let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
