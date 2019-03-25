@@ -2,9 +2,10 @@ import { promises, readdir, stat } from 'fs';
 import { cpus } from 'os';
 import { join } from 'path';
 import { from, Observable, Observer, of, range, ReplaySubject, Subject } from 'rxjs';
-import { distinct, filter, flatMap, map, mergeMap, switchMap, take, tap, zip, count, windowCount, mergeAll } from 'rxjs/operators';
+import { distinct, filter, flatMap, map, mergeMap, switchMap, take, tap, zip, count, windowTime, mergeAll, reduce } from 'rxjs/operators';
 
-const entryCrawler = new Subject<FsEntry>();
+const fs = require('fs');
+
 
 
 // console.log("hello world");
@@ -27,7 +28,7 @@ class FsEntry {
   }
 }
 
-
+/*
 function stat$(filename: string): Promise<FsEntry> {
   //console.log('stat$ ' + JSON.stringify(filename));
   return new Promise<FsEntry>((resolve, reject) => {
@@ -40,6 +41,8 @@ function stat$(filename: string): Promise<FsEntry> {
     });
   });
 }
+
+
 
 function readdir$(entry: FsEntry): void {
   //console.log('readdir$ ' + JSON.stringify(entry));
@@ -64,38 +67,6 @@ function readdir$(entry: FsEntry): void {
   });
 }
 
-//
-// Asynchronously reads the stats of the item at the path.
-//
-/*
-function stat$(path) {
-    return Observable.create(observer => {
-        fs.stat(path, function cb(e, stat) {
-            if(e) return observer.onError(e);
-            var data = getFilenameMetaData(path || '');
-            data.stat = stat;
-            observer.onNext(data);
-            observer.onCompleted();
-        });
-    });
-};
-function getFilenameMetaData$(path) {
-    var extension = Path.extname(path);
-    return {
-        extension: Path.extname(path),
-        name:      Path.basename(path, extension),
-        location:  Path.dirname(path),
-        path:      path
-    };
-};*/
-
-/*readdir$('../../')
-    .pipe(mergeMap(x => from(x)))
-    //.pipe(take(3))
-    .subscribe(x => console.log(x));*/
-
-/*const files = new Subject<FsEntry>();
-const dir = new Subject<FsEntry>();*/
 
 const files = entryCrawler.pipe(filter(x => !x.isDir()));
 const dir = entryCrawler.pipe(filter(x => x.isDir()));
@@ -108,9 +79,66 @@ const e = dir.pipe(tap(x => readdir$(x)));
   /*
   windowCount(20),
   mergeAll()).subscribe(x => console.log("size "+JSON.stringify(x)));*/
+
+function getFileNature$(filename: string): Observable<string> {
+  const obs = Observable.create((observer: any) => {
+    stat(filename, function cb(e, stat) {
+      if (e) {
+        //do nothing
+        console.log(e);
+      } else {
+        //resolve(new FsEntry(filename, stat.isDirectory()));
+        if (stat.isDirectory()) {
+          observer.next(readdir$(filename));
+        } else {
+          observer.next(from([filename]));
+        }
+
+        observer.complete();
+      }
+    });
+  });
+
+  return obs.pipe(mergeAll());
+}
+
+function readdir$(directory: string): Observable<string> {
+
+
+
+
+  const obs = Observable.create((observer: any) => {
+    fs.readdir(directory, (err, files) => {
+      for (let file in files) {
+        
+        const filename = join(directory, files[file]);
+        //console.log(filename);
+        observer.next(getFileNature$(filename));
+
+        //observer.next(from([filename]));
+      }
+
+      observer.complete();
+    });
+
+
+    /*observer.next('Hello');
+    observer.next('World');
+    observer.complete();*/
+  });
+  //return obs;
+  return obs.pipe(mergeAll());
+}
+
+
+
+readdir$("C:\\Users\\waxjero\\eclipse-workspace").pipe(count()
+).subscribe(x => console.log(x));
+
+/*
 e.subscribe();
-files.subscribe(x => console.log(x));
+files.subscribe(x => console.log(x));*/
 
 //entryCrawler.subscribe(x => console.log(x));
 
-entryCrawler.next(new FsEntry('d:\\tmp2', true));
+//entryCrawler.next(new FsEntry('../../', true));
